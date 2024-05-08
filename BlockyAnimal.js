@@ -4,11 +4,9 @@ var VSHADER_SOURCE =`
   attribute vec4 a_Position;
   uniform mat4 u_ModelMatrix;
   uniform mat4 u_GlobalRotateMatrix;
-  uniform float u_Size;
 
   void main() {
     gl_Position = u_GlobalRotateMatrix*u_ModelMatrix * a_Position;
-    gl_PointSize = u_Size;
   }`
 
 // Fragment shader program
@@ -24,7 +22,6 @@ let canvas;
 let gl;
 let a_Position;
 let u_FragColor;
-let u_Size;
 let u_ModelMatrix;
 let u_GlobalRotateMatrix;
 
@@ -66,21 +63,14 @@ function connectVariablesToGLSL(){
     return;
   }
 
-  // Get the storage location of u_Size
-  u_Size = gl.getUniformLocation(gl.program, 'u_Size');
-  if (!u_Size) {
-    console.log('Failed to get the storage location of u_Size');
-    return;
-  }
-
   u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
-  if (!u_Size) {
+  if (!u_ModelMatrix) {
     console.log('Failed to get the storage location of u_ModelMatrix');
     return;
   }
 
   u_GlobalRotateMatrix = gl.getUniformLocation(gl.program, 'u_GlobalRotateMatrix');
-  if (!u_Size) {
+  if (!u_GlobalRotateMatrix) {
     console.log('Failed to get the storage location of u_GlobalRotateMatrix');
     return;
   }
@@ -120,15 +110,15 @@ let animation = false;
     //document.getElementById("triangleButton").onclick = function(){ g_selectedType = TRIANGLE}
     //document.getElementById("circleButton").onclick = function(){ g_selectedType = CIRCLE}
     //slider
-    document.getElementById("Mouthopen").addEventListener("mouseup", function(){  Mouthopen= this.value;renderALLshapes();}) 
-    document.getElementById("RotateHead").addEventListener("mouseup", function(){  RotateHead= this.value;renderALLshapes(); }) 
+    document.getElementById("Mouthopen").addEventListener("mousemove", function(){  Mouthopen= this.value;renderALLshapes();}) 
+    document.getElementById("RotateHead").addEventListener("mousemove", function(){  RotateHead= this.value;renderALLshapes(); }) 
     document.getElementById("RotateNeck").addEventListener("mousemove", function(){ RotateNeck= this.value;renderALLshapes(); })
     document.getElementById("RotateBody").addEventListener("mousemove", function(){ RotateBody= this.value;renderALLshapes();})
     document.getElementById("RotateTail").addEventListener("mousemove", function(){ RotateTail= this.value;renderALLshapes();})
     document.getElementById("angleslider_x").addEventListener("mousemove", function(){ g_globalAngle_x= Number(this.value); renderALLshapes();})
     //legs
-    document.getElementById("back_leg_1").addEventListener("mouseup", function(){  back_leg_1= this.value;renderALLshapes();}) 
-    document.getElementById("back_leg_2").addEventListener("mouseup", function(){  back_leg_2= this.value;renderALLshapes(); }) 
+    document.getElementById("back_leg_1").addEventListener("mousemove", function(){  back_leg_1= this.value;renderALLshapes();}) 
+    document.getElementById("back_leg_2").addEventListener("mousemove", function(){  back_leg_2= this.value;renderALLshapes(); }) 
     document.getElementById("front_leg_1").addEventListener("mousemove", function(){ front_leg_1= this.value;renderALLshapes(); })
     document.getElementById("front_leg_2").addEventListener("mousemove", function(){ front_leg_2= this.value;renderALLshapes();})
   };
@@ -275,18 +265,6 @@ function shiftAnimation(){
       }
     }
    
-    
-    /*
-    let pi = Math.PI
-    for (let x = 0; x <= pi/2; x+=.1) {
-      Mouthopen= 90*Math.sin(x);
-  }
-
-    for (let x=pi/2; x <= pi; x+=.3) {
-      Mouthopen= 90*Math.sin(x);
-  }
-  */
-  
 }
 
 
